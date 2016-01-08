@@ -1,0 +1,69 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>eu.ioservices.canopus</groupId>
+    <artifactId>canopus-parent</artifactId>
+    <version>0.0.1</version>
+    <modules>
+        <module>canopus-bag</module>
+    </modules>
+    <packaging>pom</packaging>
+
+    <name>canopus-parent</name>
+    <url>https://github.com/wingsofovnia/canopus</url>
+
+    <licenses>
+        <license>
+            <name>Apache 2.0 License</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/wingsofovnia/canopus</url>
+    </scm>
+    <developers>
+        <developer>
+            <id>iovchynnikov</id>
+            <name>Illia Ovchynnikov</name>
+            <email>illia.ovchynnikov@gmail.com</email>
+            <roles>
+                <role>owner</role>
+                <role>developer</role>
+            </roles>
+            <timezone>+2</timezone>
+        </developer>
+    </developers>
+
+    <properties>
+        <!-- Maven and JAVAC depended properties -->
+        <project.build.jdk.version>1.8</project.build.jdk.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.target>${project.build.jdk.version}</maven.compiler.target>
+        <maven.compiler.source>${project.build.jdk.version}</maven.compiler.source>
+        <maven.compiler.testTarget>${project.build.jdk.version}</maven.compiler.testTarget>
+        <maven.compiler.testSource>${project.build.jdk.version}</maven.compiler.testSource>
+
+        <!-- Dependencies versions -->
+        <dep.junit.ver>4.12</dep.junit.ver>
+        <dep.squareup.retrofit.ver>2.0.0-beta3</dep.squareup.retrofit.ver>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.squareup.retrofit2</groupId>
+                <artifactId>retrofit</artifactId>
+                <version>${dep.squareup.retrofit.ver}</version>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${dep.junit.ver}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>
