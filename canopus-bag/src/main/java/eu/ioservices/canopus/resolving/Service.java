@@ -10,6 +10,10 @@ import java.util.Objects;
  * @author &lt;<a href="mailto:illia.ovchynnikov@gmail.com">illia.ovchynnikov@gmail.com</a>&gt;
  */
 public class Service {
+    public static enum Status {
+        UNKNOWN, UNAVAILABLE, WARNING, OK
+    }
+
     public static enum Protocol {
         HTTP("http"), HTTPS("https");
 
@@ -35,6 +39,7 @@ public class Service {
     public static final int DEFAULT_HEARTBEAT_INTERVAL = 60;
     public static final int DEFAULT_HEARTBEAT_TIMEOUT = 5;
     public static final Protocol DEFAULT_PROTOCOL = Protocol.HTTP;
+    public static final Status DEFAULT_STATUS = Status.UNKNOWN;
     private static final String ID_PATTERN = "%s@%s:%s@:%s";
     private static final String URL_PATTERN = "%s://%s:%d";
 
@@ -45,6 +50,7 @@ public class Service {
     private final Protocol protocol;
     private final int heartbeatInterval;
     private final int heartbeatTimeout;
+    private final Status status;
 
     public Service(String host, int port, String name) {
         this(host, port, name, DEFAULT_PROTOCOL);
@@ -62,6 +68,7 @@ public class Service {
         this.protocol = Objects.requireNonNull(protocol);
         this.heartbeatInterval = DEFAULT_HEARTBEAT_INTERVAL;
         this.heartbeatTimeout = DEFAULT_HEARTBEAT_TIMEOUT;
+        this.status = DEFAULT_STATUS;
     }
 
     public Service(int port, String name, Protocol protocol) throws SocketException, UnknownHostException {
@@ -69,7 +76,7 @@ public class Service {
     }
 
     public Service(String id, String name, String host, int port, Protocol protocol, int heartbeatInterval,
-                   int heartbeatTimeout) {
+                   int heartbeatTimeout, Status status) {
         this.id = Objects.requireNonNull(id);
         this.name = Objects.requireNonNull(name);
         this.host = Objects.requireNonNull(host);
@@ -77,11 +84,12 @@ public class Service {
         this.protocol = Objects.requireNonNull(protocol);
         this.heartbeatInterval = heartbeatInterval;
         this.heartbeatTimeout = heartbeatTimeout;
+        this.status = Objects.requireNonNull(status);
     }
 
-    public Service(String id, String name, int port, Protocol protocol, int heartbeatInterval, int heartbeatTimeout)
-            throws SocketException, UnknownHostException {
-        this(id, name, IPUtils.getPrivateAddress(), port, protocol, heartbeatInterval, heartbeatTimeout);
+    public Service(String id, String name, int port, Protocol protocol, int heartbeatInterval,
+                   int heartbeatTimeout, Status status) throws SocketException, UnknownHostException {
+        this(id, name, IPUtils.getPrivateAddress(), port, protocol, heartbeatInterval, heartbeatTimeout, status);
     }
 
     public int getHeartbeatInterval() {
@@ -110,6 +118,10 @@ public class Service {
 
     public Protocol getProtocol() {
         return protocol;
+    }
+
+    public Status getStatus() {
+        return status;
     }
 
     public String getUrl() {

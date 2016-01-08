@@ -1,14 +1,12 @@
 package eu.ioservices.canopus.resolving.consul;
 
 import com.ecwid.consul.v1.OperationException;
+import com.ecwid.consul.v1.agent.model.Check;
 import eu.ioservices.canopus.resolving.Service;
 import eu.ioservices.canopus.resolving.ServiceDiscoverer;
 import eu.ioservices.canopus.resolving.ServiceDiscoveringException;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -26,6 +24,7 @@ public class ConsulServiceDiscoverer extends ConsulDiscoveryClient implements Se
     @Override
     public List<Service> resolve() throws ServiceDiscoveringException {
         try {
+            final Collection<Check> serviceChecks = this.consulClient.getAgentChecks().getValue().values();
             return consulClient.getAgentServices().getValue().values().stream()
                     .map(info -> {
                         final String serviceId = info.getId();
@@ -43,13 +42,29 @@ public class ConsulServiceDiscoverer extends ConsulDiscoveryClient implements Se
                                     .findFirst()
                                     .get());
 
+                        final Check.CheckStatus serviceCheckStatus = serviceChecks.stream()
+                                .filter(check -> check.getServiceId().equals(serviceId))
+                                .findFirst()
+                                .get()
+                                .getStatus();
+
+                        Service.Status serviceStatus;
+                        if (serviceCheckStatus == Check.CheckStatus.CRITICAL)
+                            serviceStatus = Service.Status.UNAVAILABLE;
+                        else if (serviceCheckStatus == Check.CheckStatus.WARNING)
+                            serviceStatus = Service.Status.WARNING;
+                        else if (serviceCheckStatus == Check.CheckStatus.PASSING)
+                            serviceStatus = Service.Status.OK;
+                        else
+                            serviceStatus = Service.Status.UNKNOWN;
+
+
                         // as of Consul 0.6.1, consul doesn't report check interval/timeout
                         final int serviceHeartbeatInterval = Service.DEFAULT_HEARTBEAT_INTERVAL;
                         final int serviceHeartbeatTimeout = Service.DEFAULT_HEARTBEAT_TIMEOUT;
 
-                        return new Service(serviceId, serviceName, serviceAddress,
-                                servicePort, serviceProtocol, serviceHeartbeatInterval, serviceHeartbeatTimeout);
-
+                        return new Service(serviceId, serviceName, serviceAddress, servicePort,
+                                serviceProtocol, serviceHeartbeatInterval, serviceHeartbeatTimeout, serviceStatus);
                     }).collect(Collectors.toList());
         } catch (OperationException e) {
             throw new ServiceDiscoveringException("Failed to resolve services", e);
