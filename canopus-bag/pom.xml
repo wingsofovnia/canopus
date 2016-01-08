@@ -17,5 +17,9 @@
             <groupId>com.squareup.retrofit2</groupId>
             <artifactId>retrofit</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.ecwid.consul</groupId>
+            <artifactId>consul-api</artifactId>
+        </dependency>
     </dependencies>
 </project>

@@ -49,6 +49,7 @@
         <!-- Dependencies versions -->
         <dep.junit.ver>4.12</dep.junit.ver>
         <dep.squareup.retrofit.ver>2.0.0-beta3</dep.squareup.retrofit.ver>
+        <dep.consul.client.ver>1.1.8</dep.consul.client.ver>
     </properties>
 
     <dependencyManagement>
@@ -57,6 +58,11 @@
                 <groupId>com.squareup.retrofit2</groupId>
                 <artifactId>retrofit</artifactId>
                 <version>${dep.squareup.retrofit.ver}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ecwid.consul</groupId>
+                <artifactId>consul-api</artifactId>
+                <version>${dep.consul.client.ver}</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
