@@ -2,7 +2,8 @@ package eu.ioservices.canopus.resolving.consul;
 
 import com.ecwid.consul.v1.OperationException;
 import com.ecwid.consul.v1.agent.model.Check;
-import eu.ioservices.canopus.resolving.Service;
+import eu.ioservices.canopus.RemoteService;
+import eu.ioservices.canopus.Service;
 import eu.ioservices.canopus.resolving.ServiceDiscoverer;
 import eu.ioservices.canopus.resolving.ServiceDiscoveringException;
 
@@ -22,7 +23,7 @@ public class ConsulServiceDiscoverer extends ConsulDiscoveryClient implements Se
     }
 
     @Override
-    public List<Service> resolve() throws ServiceDiscoveringException {
+    public List<RemoteService> resolve() throws ServiceDiscoveringException {
         try {
             final Collection<Check> serviceChecks = this.consulClient.getAgentChecks().getValue().values();
             return consulClient.getAgentServices().getValue().values().stream()
@@ -34,13 +35,13 @@ public class ConsulServiceDiscoverer extends ConsulDiscoveryClient implements Se
 
                         final Set<String> availableProtocols
                                 = Arrays.stream(Service.Protocol.values())
-                                    .map(Service.Protocol::getValue)
-                                    .collect(Collectors.toSet());
+                                .map(Service.Protocol::getValue)
+                                .collect(Collectors.toSet());
                         final Service.Protocol serviceProtocol
                                 = Service.Protocol.fromString(info.getTags().stream()
-                                    .filter(tag -> availableProtocols.stream().anyMatch(p -> p.equals(tag)))
-                                    .findFirst()
-                                    .get());
+                                .filter(tag -> availableProtocols.stream().anyMatch(p -> p.equals(tag)))
+                                .findFirst()
+                                .get());
 
                         final Check.CheckStatus serviceCheckStatus = serviceChecks.stream()
                                 .filter(check -> check.getServiceId().equals(serviceId))
@@ -48,22 +49,22 @@ public class ConsulServiceDiscoverer extends ConsulDiscoveryClient implements Se
                                 .get()
                                 .getStatus();
 
-                        Service.Status serviceStatus;
+                        RemoteService.Status serviceStatus;
                         if (serviceCheckStatus == Check.CheckStatus.CRITICAL)
-                            serviceStatus = Service.Status.UNAVAILABLE;
+                            serviceStatus = RemoteService.Status.UNAVAILABLE;
                         else if (serviceCheckStatus == Check.CheckStatus.WARNING)
-                            serviceStatus = Service.Status.WARNING;
+                            serviceStatus = RemoteService.Status.WARNING;
                         else if (serviceCheckStatus == Check.CheckStatus.PASSING)
-                            serviceStatus = Service.Status.OK;
+                            serviceStatus = RemoteService.Status.OK;
                         else
-                            serviceStatus = Service.Status.UNKNOWN;
+                            serviceStatus = RemoteService.Status.UNKNOWN;
 
 
                         // as of Consul 0.6.1, consul doesn't report check interval/timeout
                         final int serviceHeartbeatInterval = Service.DEFAULT_HEARTBEAT_INTERVAL;
                         final int serviceHeartbeatTimeout = Service.DEFAULT_HEARTBEAT_TIMEOUT;
 
-                        return new Service(serviceId, serviceName, serviceAddress, servicePort,
+                        return new RemoteService(serviceId, serviceName, serviceAddress, servicePort,
                                 serviceProtocol, serviceHeartbeatInterval, serviceHeartbeatTimeout, serviceStatus);
                     }).collect(Collectors.toList());
         } catch (OperationException e) {
@@ -72,7 +73,7 @@ public class ConsulServiceDiscoverer extends ConsulDiscoveryClient implements Se
     }
 
     @Override
-    public List<Service> resolve(String serviceName) throws ServiceDiscoveringException {
+    public List<RemoteService> resolve(String serviceName) throws ServiceDiscoveringException {
         return this.resolve().stream()
                 .filter(service -> Objects.requireNonNull(serviceName).equals(service.getName()))
                 .collect(Collectors.toList());

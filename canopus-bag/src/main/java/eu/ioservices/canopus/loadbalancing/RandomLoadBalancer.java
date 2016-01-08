@@ -1,8 +1,7 @@
 package eu.ioservices.canopus.loadbalancing;
 
-import eu.ioservices.canopus.resolving.Service;
+import eu.ioservices.canopus.RemoteService;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,15 +11,15 @@ import java.util.stream.Collectors;
  */
 public class RandomLoadBalancer implements LoadBalancer {
     @Override
-    public Service choose(Collection<Service> services) throws LoadBalancerException {
+    public RemoteService choose(List<RemoteService> services) throws LoadBalancerException {
         return this.choose(services, 1).get(0);
     }
 
     @Override
-    public List<Service> choose(Collection<Service> services, int limit) throws LoadBalancerException {
-        final List<Service> availableRemoteServices =
+    public List<RemoteService> choose(List<RemoteService> services, int limit) throws LoadBalancerException {
+        final List<RemoteService> availableRemoteServices =
                 services.stream()
-                        .filter(service -> service.getStatus() != Service.Status.UNAVAILABLE)
+                        .filter(service -> service.getStatus() != RemoteService.Status.UNAVAILABLE)
                         .sorted((s1, s2) -> s1.getStatus().compareTo(s2.getStatus()))
                         .collect(Collectors.toList());
 

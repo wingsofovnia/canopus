@@ -3,7 +3,7 @@ package eu.ioservices.canopus.resolving;
 /**
  * @author &lt;<a href="mailto:illia.ovchynnikov@gmail.com">illia.ovchynnikov@gmail.com</a>&gt;
  */
-public class ServiceDiscoveringException extends Exception {
+public class ServiceDiscoveringException extends RuntimeException {
     public ServiceDiscoveringException() {
         super();
     }

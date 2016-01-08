@@ -1,5 +1,7 @@
 package eu.ioservices.canopus.resolving;
 
+import eu.ioservices.canopus.Service;
+
 /**
  * @author &lt;<a href="mailto:illia.ovchynnikov@gmail.com">illia.ovchynnikov@gmail.com</a>&gt;
  */

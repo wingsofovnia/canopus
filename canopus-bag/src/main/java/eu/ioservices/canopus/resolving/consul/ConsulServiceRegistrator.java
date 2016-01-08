@@ -2,7 +2,7 @@ package eu.ioservices.canopus.resolving.consul;
 
 import com.ecwid.consul.v1.OperationException;
 import com.ecwid.consul.v1.agent.model.NewService;
-import eu.ioservices.canopus.resolving.Service;
+import eu.ioservices.canopus.Service;
 import eu.ioservices.canopus.resolving.ServiceRegistrationException;
 import eu.ioservices.canopus.resolving.ServiceRegistrator;
 
