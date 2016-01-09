@@ -1,3 +1,7 @@
+<p align="center">
+   <img src="https://drive.google.com/uc?id=0B54N87Pu1jNTSG9SU0ItX3BZM00&authuser=0&export=download">
+</p>
+
 # Canopus
 Canopus is a library for service oriented applications, that provides service registration, discovery, loadbalancing and IPC (Inter Process Communication). I've made it to facilitate the development of REST Microservices.
 
