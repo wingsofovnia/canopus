@@ -4,13 +4,10 @@
 
     <groupId>eu.ioservices.canopus</groupId>
     <artifactId>canopus-parent</artifactId>
-    <version>0.0.1</version>
-    <modules>
-        <module>canopus-bag</module>
-    </modules>
+    <version>0.1.2</version>
     <packaging>pom</packaging>
 
-    <name>canopus-parent</name>
+    <name>Canopus Project (Parent)</name>
     <url>https://github.com/wingsofovnia/canopus</url>
 
     <licenses>
@@ -55,6 +52,31 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>eu.ioservices.canopus</groupId>
+                <artifactId>canopus-commons</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>eu.ioservices.canopus</groupId>
+                <artifactId>canopus-discovery</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>eu.ioservices.canopus</groupId>
+                <artifactId>canopus-discovery-consul</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>eu.ioservices.canopus</groupId>
+                <artifactId>canopus-loadbalancing</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>eu.ioservices.canopus</groupId>
+                <artifactId>canopus-exchanging</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>com.netflix.feign</groupId>
                 <artifactId>feign-core</artifactId>
                 <version>${dep.netflix.feign.ver}</version>
@@ -82,4 +104,13 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+
+    <modules>
+        <module>canopus-commons</module>
+        <module>canopus-discovery</module>
+        <module>canopus-discovery-consul</module>
+        <module>canopus-loadbalancing</module>
+        <module>canopus-exchanging</module>
+    </modules>
 </project>
