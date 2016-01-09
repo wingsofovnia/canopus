@@ -4,7 +4,7 @@
 
     <groupId>eu.ioservices.canopus</groupId>
     <artifactId>canopus-parent</artifactId>
-    <version>0.1.2</version>
+    <version>0.2</version>
     <packaging>pom</packaging>
 
     <name>Canopus Project (Parent)</name>
