@@ -48,16 +48,26 @@
 
         <!-- Dependencies versions -->
         <dep.junit.ver>4.12</dep.junit.ver>
-        <dep.squareup.retrofit.ver>2.0.0-beta3</dep.squareup.retrofit.ver>
         <dep.consul.client.ver>1.1.8</dep.consul.client.ver>
+        <dep.netflix.feign.ver>8.14.0</dep.netflix.feign.ver>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.squareup.retrofit2</groupId>
-                <artifactId>retrofit</artifactId>
-                <version>${dep.squareup.retrofit.ver}</version>
+                <groupId>com.netflix.feign</groupId>
+                <artifactId>feign-core</artifactId>
+                <version>${dep.netflix.feign.ver}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.netflix.feign</groupId>
+                <artifactId>feign-okhttp</artifactId>
+                <version>${dep.netflix.feign.ver}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.netflix.feign</groupId>
+                <artifactId>feign-gson</artifactId>
+                <version>${dep.netflix.feign.ver}</version>
             </dependency>
             <dependency>
                 <groupId>com.ecwid.consul</groupId>
