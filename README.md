@@ -1,11 +1,11 @@
 <p align="center">
    <img src="https://drive.google.com/uc?id=0B54N87Pu1jNTSG9SU0ItX3BZM00&authuser=0&export=download">
+   <br/>
+   <img src="https://travis-ci.org/wingsofovnia/canopus.svg?branch=develop">
 </p>
+**Canopus** is a library for service oriented applications, that provides service registration, discovery, loadbalancing and IPC (Inter Process Communication).
 
-# Canopus
-Canopus is a library for service oriented applications, that provides service registration, discovery, loadbalancing and IPC (Inter Process Communication). I've made it to facilitate the development of REST Microservices.
-
-It inspired by Netflix Ribbon, Netflix Eureka and Netflix Hystrix but promises to be light and easy to extend. It has built-in Circuit Breaker, Load Balancers and adapters for different Discovery services (Consul, Netflix Eureka (planned)) and HTTP Client, based on Netflix Feign. Thanks to its modular structure, you can use each of it's functionalities independently.
+It is inspired by Netflix Ribbon, Netflix Eureka and Netflix Hystrix but promises to be light and easy to extend. It has built-in Circuit Breaker, Load Balancers and adapters for different Discovery services (Consul, Netflix Eureka (planned)) and HTTP Client, based on Netflix Feign. Thanks to its modular structure, you can use each of it's functionalities independently.
 
 ## Core modules
 - **canopus-commons** - utils and shared models
@@ -51,7 +51,7 @@ List<RemoteService> twoBalancedServiceChoices = loadBalancer.choose(testServiceI
 ```
 
 ## Inter Process Communication
-```Interaction``` from **canopus-exchanging** allows to build client of remote service by interface. This functionality is provided by [Netflix Feign](https://github.com/Netflix/feign). Canopus integrates it's discovery and loadbalancing capabilities with Circuit Breaker pattern into Feign in order to provide more features. Canopus also adds some new annotations for easy interaction with ```CircuitBreaker``` implementation.
+```Interaction``` from **canopus-exchanging** allows to build remote service client by interface. This functionality is provided by [Netflix Feign](https://github.com/Netflix/feign). Canopus integrates it's discovery and loadbalancing capabilities with Circuit Breaker pattern into Feign in order to provide more features. Canopus also adds some new annotations for easy interaction with ```CircuitBreaker``` implementation.
 ```java
 class Contributor {
     String login;
