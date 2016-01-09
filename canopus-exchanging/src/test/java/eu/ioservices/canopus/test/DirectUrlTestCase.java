@@ -41,8 +41,9 @@ public class DirectUrlTestCase {
 
     @Test
     public void gitHubClientTestWithoutCircuitBreaker() {
-        final GitHub gitHubClient = new Interaction().with(GITHUB_API_URL).via(GitHub.class);
-        List<Contributor> contributors = gitHubClient.contributors(GITHUB_REPO_USER, GITHUB_REPO_PROJECT);
+        final GitHub directGitHubClient = new Interaction().with(GITHUB_API_URL)
+                                                           .via(GitHub.class);
+        List<Contributor> contributors = directGitHubClient.contributors(GITHUB_REPO_USER, GITHUB_REPO_PROJECT);
         assertTrue(contributors.stream().anyMatch(contributor -> GITHUB_REPO_CONTRIBUTOR.equals(contributor.login) &&
                 contributor.contributions > GITHUB_REPO_CONTRIBUTOR_MIN_CONTRIBUTIONS));
     }

@@ -47,12 +47,12 @@ public class Interaction {
         return this;
     }
 
-    public Interaction with(Decoder decoder) {
+    public Interaction using(Decoder decoder) {
         this.decoder = Objects.requireNonNull(decoder);
         return this;
     }
 
-    public Interaction with(Encoder encoder) {
+    public Interaction using(Encoder encoder) {
         this.encoder = Objects.requireNonNull(encoder);
         return this;
     }

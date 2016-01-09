@@ -46,15 +46,15 @@ public class Service {
     private final int heartbeatInterval;
     private final int heartbeatTimeout;
 
-    public Service(String host, int port, String name) {
-        this(host, port, name, DEFAULT_PROTOCOL);
+    public Service(String name, String host, int port) {
+        this(name, host, port, DEFAULT_PROTOCOL);
     }
 
-    public Service(int port, String name) throws SocketException, UnknownHostException {
-        this(IPUtils.getPrivateAddress(), port, name, DEFAULT_PROTOCOL);
+    public Service(String name, int port) throws SocketException, UnknownHostException {
+        this(name, IPUtils.getPrivateAddress(), port, DEFAULT_PROTOCOL);
     }
 
-    public Service(String host, int port, String name, Protocol protocol) {
+    public Service(String name, String host, int port, Protocol protocol) {
         this.id = String.format(ID_PATTERN, name, host, port, System.nanoTime());
         this.host = Objects.requireNonNull(host);
         this.port = IPUtils.requireValidPort(port);
@@ -64,8 +64,8 @@ public class Service {
         this.heartbeatTimeout = DEFAULT_HEARTBEAT_TIMEOUT;
     }
 
-    public Service(int port, String name, Protocol protocol) throws SocketException, UnknownHostException {
-        this(IPUtils.getPrivateAddress(), port, name, protocol);
+    public Service(String name, int port, Protocol protocol) throws SocketException, UnknownHostException {
+        this(name, IPUtils.getPrivateAddress(), port, protocol);
     }
 
     public Service(String id, String name, String host, int port, Protocol protocol, int heartbeatInterval,
