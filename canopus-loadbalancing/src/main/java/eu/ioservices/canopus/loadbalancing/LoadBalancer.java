@@ -9,6 +9,4 @@ import java.util.List;
  */
 public interface LoadBalancer {
     RemoteService choose(List<RemoteService> services) throws LoadBalancerException;
-
-    List<RemoteService> choose(List<RemoteService> services, int limit) throws LoadBalancerException;
 }

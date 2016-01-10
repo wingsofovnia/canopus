@@ -47,7 +47,6 @@ List<RemoteService> testServiceInstances = serviceDiscoverer.resolve("myTestServ
 
 LoadBalancer loadBalancer = new RandomLoadBalancer();
 RemoteService loadBalancedServiceChoice = loadBalancer.choose(testServiceInstances);
-List<RemoteService> twoBalancedServiceChoices = loadBalancer.choose(testServiceInstances, 2);
 ```
 
 ## Inter Process Communication
