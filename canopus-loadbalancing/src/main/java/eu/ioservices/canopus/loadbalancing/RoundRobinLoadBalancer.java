@@ -1,32 +1,25 @@
 package eu.ioservices.canopus.loadbalancing;
 
 import eu.ioservices.canopus.RemoteService;
-import eu.ioservices.canopus.Service;
 
 import java.util.*;
 
 /**
  * @author &lt;<a href="mailto:illia.ovchynnikov@gmail.com">illia.ovchynnikov@gmail.com</a>&gt;
  */
-public class RoundRobinLoadBalancer implements LoadBalancer {
+public class RoundRobinLoadBalancer extends InstancesLoadBalancer {
     private final Map<String, Set<String>> serviceNameToIds = new HashMap<>();
 
     @Override
     public RemoteService choose(List<RemoteService> services) throws LoadBalancerException {
-        if (Objects.requireNonNull(services).size() == 0)
-            return null;
-
-        if ((int) services.stream().map(Service::getName).distinct().count() > 0)
-            throw new IllegalArgumentException("List must contain only service of the same type (same name).");
-
-        for (RemoteService remoteService : services) {
+        for (RemoteService remoteService : this.requireValidServiceInstances(services)) {
             if (isRemembered(remoteService))
                 continue;
             rememberChoice(remoteService);
             return remoteService;
         }
 
-        final RemoteService chosenService = services.get(0);
+        final RemoteService chosenService = this.requireValidServiceInstances(services).get(0);
 
         final String serviceName = chosenService.getName();
         resetChoices(serviceName);
