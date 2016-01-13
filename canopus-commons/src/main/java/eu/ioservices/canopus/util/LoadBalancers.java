@@ -1,4 +1,4 @@
-package eu.ioservices.canopus.loadbalancing;
+package eu.ioservices.canopus.util;
 
 import eu.ioservices.canopus.RemoteService;
 import eu.ioservices.canopus.Service;
@@ -9,8 +9,12 @@ import java.util.Objects;
 /**
  * @author &lt;<a href="mailto:illia.ovchynnikov@gmail.com">illia.ovchynnikov@gmail.com</a>&gt;
  */
-public abstract class InstancesLoadBalancer implements LoadBalancer {
-    protected List<RemoteService> requireValidServiceInstances(List<RemoteService> services) throws LoadBalancerException {
+public final class LoadBalancers {
+    private LoadBalancers() {
+        throw new AssertionError("No eu.ioservices.canopus.util.LoadBalancers instances for you!");
+    }
+
+    public static List<RemoteService> requireEqualNameServices(List<RemoteService> services){
         if (Objects.requireNonNull(services).size() == 0)
             throw new IllegalArgumentException("List must contain at least one RemoteService instance");
 

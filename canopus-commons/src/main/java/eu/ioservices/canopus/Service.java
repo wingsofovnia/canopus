@@ -1,6 +1,6 @@
 package eu.ioservices.canopus;
 
-import eu.ioservices.canopus.utils.IPUtils;
+import eu.ioservices.canopus.util.NetworkInterfaces;
 
 import java.net.SocketException;
 import java.net.UnknownHostException;
@@ -51,13 +51,13 @@ public class Service {
     }
 
     public Service(String name, int port) throws SocketException, UnknownHostException {
-        this(name, IPUtils.getPrivateAddress(), port, DEFAULT_PROTOCOL);
+        this(name, NetworkInterfaces.getPrivateAddress(), port, DEFAULT_PROTOCOL);
     }
 
     public Service(String name, String host, int port, Protocol protocol) {
         this.id = String.format(ID_PATTERN, name, host, port, System.nanoTime());
         this.host = Objects.requireNonNull(host);
-        this.port = IPUtils.requireValidPort(port);
+        this.port = NetworkInterfaces.requireValidPort(port);
         this.name = Objects.requireNonNull(name);
         this.protocol = Objects.requireNonNull(protocol);
         this.heartbeatInterval = DEFAULT_HEARTBEAT_INTERVAL;
@@ -65,7 +65,7 @@ public class Service {
     }
 
     public Service(String name, int port, Protocol protocol) throws SocketException, UnknownHostException {
-        this(name, IPUtils.getPrivateAddress(), port, protocol);
+        this(name, NetworkInterfaces.getPrivateAddress(), port, protocol);
     }
 
     public Service(String id, String name, String host, int port, Protocol protocol, int heartbeatInterval,
@@ -73,7 +73,7 @@ public class Service {
         this.id = Objects.requireNonNull(id);
         this.name = Objects.requireNonNull(name);
         this.host = Objects.requireNonNull(host);
-        this.port = IPUtils.requireValidPort(port);
+        this.port = NetworkInterfaces.requireValidPort(port);
         this.protocol = Objects.requireNonNull(protocol);
         this.heartbeatInterval = heartbeatInterval;
         this.heartbeatTimeout = heartbeatTimeout;
@@ -81,7 +81,7 @@ public class Service {
 
     public Service(String id, String name, int port, Protocol protocol, int heartbeatInterval,
                    int heartbeatTimeout) throws SocketException, UnknownHostException {
-        this(id, name, IPUtils.getPrivateAddress(), port, protocol, heartbeatInterval, heartbeatTimeout);
+        this(id, name, NetworkInterfaces.getPrivateAddress(), port, protocol, heartbeatInterval, heartbeatTimeout);
     }
 
     public int getHeartbeatInterval() {

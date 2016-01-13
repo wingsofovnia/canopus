@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
  * @author &lt;<a href="mailto:illia.ovchynnikov@gmail.com">illia.ovchynnikov@gmail.com</a>&gt;
  */
 public class CanopusHttpClient implements Client {
-    private static interface ServicePathResolver {
+    private interface ServicePathResolver {
         String url();
     }
 
@@ -29,7 +29,7 @@ public class CanopusHttpClient implements Client {
     private final ServicePathResolver servicePathResolver;
 
     public CanopusHttpClient(String baseUrl) {
-        this.servicePathResolver = () -> Objects.requireNonNull(baseUrl);
+        this.servicePathResolver = () -> Objects.requireNonNull(baseUrl).replaceAll("/$", "");
     }
 
     public CanopusHttpClient(RemoteService remoteService) {

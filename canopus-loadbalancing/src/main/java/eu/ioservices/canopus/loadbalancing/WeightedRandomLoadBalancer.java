@@ -1,6 +1,7 @@
 package eu.ioservices.canopus.loadbalancing;
 
 import eu.ioservices.canopus.RemoteService;
+import eu.ioservices.canopus.util.LoadBalancers;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +17,8 @@ public class WeightedRandomLoadBalancer extends RandomLoadBalancer {
 
     @Override
     public RemoteService choose(List<RemoteService> services) throws LoadBalancerException {
-        final Map<RemoteService, Integer> serviceToWeight = this.requireValidServiceInstances(services).stream()
+        final Map<RemoteService, Integer> serviceToWeight
+                = LoadBalancers.requireEqualNameServices(services).stream()
                     .collect(Collectors.toMap(service -> service, this::getServiceWeight));
 
         final int minWeight = serviceToWeight.values().stream().min(Integer::min).get();
