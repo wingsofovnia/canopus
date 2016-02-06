@@ -5,6 +5,7 @@ import eu.ioservices.canopus.exchanging.netflix.feign.CanopusHttpClient;
 import eu.ioservices.canopus.exchanging.netflix.feign.CanopusInvocationHandler;
 import eu.ioservices.canopus.loadbalancing.LoadBalancer;
 import eu.ioservices.canopus.discovery.ServiceDiscoverer;
+import feign.Contract;
 import feign.Feign;
 import feign.codec.Decoder;
 import feign.codec.Encoder;
@@ -21,10 +22,12 @@ public class Interaction {
     public static final String FEIGN_TARGET_BASE_URL = "{baseurl}";
     private static final Decoder DEFAULT_DECODER = new GsonDecoder();
     private static final Encoder DEFAULT_ENCODER = new GsonEncoder();
+    private static final Contract DEFAULT_CONTRACT = new Contract.Default();
 
     private final Feign.Builder feignBuilder = new Feign.Builder();
     private Decoder decoder = DEFAULT_DECODER;
     private Encoder encoder = DEFAULT_ENCODER;
+    private Contract contract = DEFAULT_CONTRACT;
     private ServiceDiscoverer serviceDiscoverer;
     private LoadBalancer loadBalancer;
     private RemoteService remoteService;
@@ -57,6 +60,11 @@ public class Interaction {
         return this;
     }
 
+    public Interaction using(Contract contract) {
+        this.contract = Objects.requireNonNull(contract);
+        return this;
+    }
+
     public Interaction using(ServiceDiscoverer serviceDiscoverer) {
         this.serviceDiscoverer = Objects.requireNonNull(serviceDiscoverer);
         return this;
@@ -86,6 +94,7 @@ public class Interaction {
         return feignBuilder.client(httpClient)
                            .encoder(this.encoder)
                            .decoder(this.decoder)
+                           .contract(this.contract)
                            .invocationHandlerFactory(CanopusInvocationHandler::new)
                            .target(interfaceClass, FEIGN_TARGET_BASE_URL);
     }

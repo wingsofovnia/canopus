@@ -46,7 +46,7 @@
         <!-- Dependencies versions -->
         <dep.junit.ver>4.12</dep.junit.ver>
         <dep.consul.client.ver>1.1.8</dep.consul.client.ver>
-        <dep.netflix.feign.ver>8.14.0</dep.netflix.feign.ver>
+        <dep.netflix.feign.ver>8.14.3</dep.netflix.feign.ver>
     </properties>
 
     <dependencyManagement>
@@ -89,6 +89,11 @@
             <dependency>
                 <groupId>com.netflix.feign</groupId>
                 <artifactId>feign-gson</artifactId>
+                <version>${dep.netflix.feign.ver}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.netflix.feign</groupId>
+                <artifactId>feign-jaxrs</artifactId>
                 <version>${dep.netflix.feign.ver}</version>
             </dependency>
             <dependency>

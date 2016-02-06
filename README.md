@@ -2,6 +2,7 @@
    <img src="https://drive.google.com/uc?id=0B54N87Pu1jNTSG9SU0ItX3BZM00&authuser=0&export=download">
    <br/>
    <img src="https://travis-ci.org/wingsofovnia/canopus.svg?branch=develop">
+   <a href='https://www.versioneye.com/user/projects/569660acaf789b0043000f3a'><img src='https://www.versioneye.com/user/projects/569660acaf789b0043000f3a/badge.svg?style=flat' alt="Dependency Status" /></a>
 </p>
 **Canopus** is a library for service oriented applications, that provides service registration, discovery, loadbalancing and IPC (Inter Process Communication).
 
