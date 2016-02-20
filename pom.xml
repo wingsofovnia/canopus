@@ -4,7 +4,7 @@
 
     <groupId>eu.ioservices.canopus</groupId>
     <artifactId>canopus-parent</artifactId>
-    <version>0.2</version>
+    <version>0.2.5</version>
     <packaging>pom</packaging>
 
     <name>Canopus Project (Parent)</name>
@@ -46,7 +46,8 @@
         <!-- Dependencies versions -->
         <dep.junit.ver>4.12</dep.junit.ver>
         <dep.consul.client.ver>1.1.8</dep.consul.client.ver>
-        <dep.netflix.feign.ver>8.14.3</dep.netflix.feign.ver>
+        <dep.netflix.feign.ver>8.14.4</dep.netflix.feign.ver>
+        <dep.sparkjava.ver>2.3</dep.sparkjava.ver>
     </properties>
 
     <dependencyManagement>
@@ -102,6 +103,11 @@
                 <version>${dep.consul.client.ver}</version>
             </dependency>
             <dependency>
+                <groupId>com.sparkjava</groupId>
+                <artifactId>spark-core</artifactId>
+                <version>${dep.sparkjava.ver}</version>
+            </dependency>
+            <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${dep.junit.ver}</version>
@@ -116,6 +122,7 @@
         <module>canopus-discovery</module>
         <module>canopus-discovery-consul</module>
         <module>canopus-loadbalancing</module>
+        <module>canopus-gateway</module>
         <module>canopus-exchanging</module>
     </modules>
 </project>

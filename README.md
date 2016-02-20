@@ -3,15 +3,18 @@
    <br/>
    <img src="https://travis-ci.org/wingsofovnia/canopus.svg?branch=develop">
    <a href='https://www.versioneye.com/user/projects/569660acaf789b0043000f3a'><img src='https://www.versioneye.com/user/projects/569660acaf789b0043000f3a/badge.svg?style=flat' alt="Dependency Status" /></a>
+   <img src='http://img.shields.io/:license-apache-blue.svg?style=flat-square'/>
+   <br/>
 </p>
 **Canopus** is a library for service oriented applications, that provides service registration, discovery, loadbalancing and IPC (Inter Process Communication).
 
-It is inspired by Netflix Ribbon, Netflix Eureka and Netflix Hystrix but promises to be light and easy to extend. It has built-in Circuit Breaker, Load Balancers and adapters for different Discovery services (Consul, Netflix Eureka (planned)) and HTTP Client, based on Netflix Feign. Thanks to its modular structure, you can use each of it's functionalities independently.
+It is inspired by Netflix Ribbon, Netflix Eureka and Netflix Hystrix but promises to be light and easy to extend. It has built-in Circuit Breaker, Load Balancers, adapters for different Discovery services (Consul, Netflix Eureka (planned)), HTTP Client, based on Netflix Feign and the API Gateway pattern implementation. Thanks to its modular structure, you can use each of it's functionalities independently.
 
 ## Core modules
 - **canopus-commons** - utils and shared models
 - **canopus-discovery** - contains core API for service discovering
 - **canopus-loadbalancing** - provides API and implementations of Load Balancers
+- **canopus-gateway** - implementation of the API Gateway pattern
 - **canopus-exchanging** - supplies library with IPC wrapper of Netflix Feign and Circuit Breaking pattern
 
 
@@ -48,6 +51,32 @@ List<RemoteService> testServiceInstances = serviceDiscoverer.resolve("myTestServ
 
 LoadBalancer loadBalancer = new RandomLoadBalancer();
 RemoteService loadBalancedServiceChoice = loadBalancer.choose(testServiceInstances);
+```
+
+## API Gateway
+With the use of ```Router``` and ```Gateway``` classes it's very easy to build Gateway microservice - an entry point for your microservices. More details about the Gateway API pattern you can find [here](http://microservices.io/patterns/apigateway.html) and [here](https://www.nginx.com/blog/building-microservices-using-an-api-gateway/). 
+```java
+// Static routing
+Router reqRouter = new Router();
+reqRouter.addRoute(HttpMethod.GET, Pattern.of("/user/{id}"), 
+                                   Pattern.of("http://127.0.0.1/intra/user/{id}"));
+reqRouter.addRoute(HttpMethod.POST, "/post/{text}", "http://127.0.0.1/intra/post/{text}");
+
+Gateway gateway = new Gateway(reqRouter, new StaticRequestProcessor());
+gateway.port(8080);
+gateway.listen();
+
+// Dynamic routing using service discovering
+Router reqRouter = new Router();
+reqRouter.addRoute(HttpMethod.GET, Pattern.of("/user/{id}"), 
+                                   Pattern.of("http://userMicroservice/intra/user/{id}"));
+reqRouter.addRoute(HttpMethod.POST, "/post/{text}", "http://postMicroservice/intra/post/{text}");
+
+ServiceDiscoverer sd = new ConsulServiceDiscoverer("127.0.0.1");
+LoadBalancer lb = new RandomLoadBalancer();
+Gateway gateway = new Gateway(reqRouter, new DynamicRequestProcessor(sd, lb));
+gateway.port(8080);
+gateway.listen();
 ```
 
 ## Inter Process Communication
