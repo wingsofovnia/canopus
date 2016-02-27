@@ -5,9 +5,9 @@ import eu.ioservices.canopus.discovery.ServiceDiscoverer;
 import eu.ioservices.canopus.gateway.routing.Track;
 import eu.ioservices.canopus.loadbalancing.LoadBalancer;
 import org.eclipse.jetty.http.HttpStatus;
-import spark.Request;
-import spark.Response;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.net.URL;
 import java.util.Objects;
 import java.util.Optional;
@@ -25,9 +25,9 @@ public class DynamicRequestProcessor extends ForwardingRequestProcessor {
     }
 
     @Override
-    public void process(Request req, Response res, Optional<Track> trackOpt) throws Exception {
+    public void process(HttpServletRequest req, HttpServletResponse res, Optional<Track> trackOpt) throws Exception {
         if (!trackOpt.isPresent()) {
-            res.status(HttpStatus.BAD_GATEWAY_502);
+            res.setStatus(HttpStatus.BAD_GATEWAY_502);
             return;
         }
 

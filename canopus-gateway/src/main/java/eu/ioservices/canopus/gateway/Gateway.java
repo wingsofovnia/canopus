@@ -38,7 +38,7 @@ public class Gateway {
 
     protected Object processRequest(HttpMethod method, Request req, Response res) throws Exception {
         final Optional<Track> track = router.route(method, req.url());
-        this.requestProcessor.process(req, res, track);
+        this.requestProcessor.process(req.raw(), res.raw(), track);
         return ""; // https://github.com/perwendel/spark/issues/335
     }
 

@@ -1,8 +1,6 @@
 package eu.ioservices.canopus.gateway.handling;
 
 import eu.ioservices.canopus.http.HttpMethod;
-import spark.Request;
-import spark.Response;
 import spark.utils.IOUtils;
 
 import javax.servlet.ServletInputStream;
@@ -21,9 +19,8 @@ import java.util.Collections;
  * @author &lt;<a href="mailto:illia.ovchynnikov@gmail.com">illia.ovchynnikov@gmail.com</a>&gt;
  */
 public abstract class ForwardingRequestProcessor implements RequestProcessor {
-    protected void forwardRequest(HttpMethod method, URL destination, Request request, Response response) throws IOException {
-        final HttpServletRequest req = request.raw();
-        final HttpServletResponse resp = response.raw();
+    protected void forwardRequest(HttpMethod method, URL destination,
+                                  HttpServletRequest req, HttpServletResponse res) throws IOException {
         final boolean hasBodyContent = method == HttpMethod.POST;
 
         final HttpURLConnection conn = (HttpURLConnection) destination.openConnection();
@@ -46,14 +43,14 @@ public abstract class ForwardingRequestProcessor implements RequestProcessor {
             }
         }
 
-        resp.setStatus(conn.getResponseCode());
+        res.setStatus(conn.getResponseCode());
 
         conn.getHeaderFields().keySet().stream()
                 .filter(k -> k != null)
-                .forEach(k -> resp.setHeader(k, conn.getHeaderField(k)));
+                .forEach(k -> res.setHeader(k, conn.getHeaderField(k)));
 
         try (final InputStream connInputStream = conn.getInputStream()) {
-            final ServletOutputStream respOutputStream = resp.getOutputStream();
+            final ServletOutputStream respOutputStream = res.getOutputStream();
             IOUtils.copy(connInputStream, respOutputStream);
         }
     }
